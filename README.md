@@ -25,7 +25,7 @@ Note that this is only the visual part of a full presentation. I write a script 
 
 ## Z-stacking
 
-The first things I tried did not work. I wanted to show how data is produced by a DVD writer. The writer is a square and the DVD is represented by two circles. An issue with z-stacking comes up when you take the 'DVD out of the drive'.
+The first things I tried did not work. I wanted to show how data is produced by a DVD writer. The writer is a square and the DVD is represented by two circles. An issue with z-stacking comes up when you 'take the DVD out of the drive'.
 
 ![DVD](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/Anim.gif)
 
@@ -190,7 +190,7 @@ class ProbOutlier(Scene):
 
 ## Sum of Gaussian distributions
 
-Given a distribution of regional brain volumes for a cohort I wanted to display how that distribution can be composed out of individual shifted and scaled distributions. A given probablity for regional brain volume and a related distance from the mean is therefore composed of different distances and probabilities in the underlying (covariate of no interest) distributions. Here I wanted to decompose the regional brain volume by age (young and old) and gender (male and female). Each of these distributions is represented with its own graph.
+Given a distribution of regional brain volumes for a cohort I wanted to display how that distribution can be decomposed into shifted and scaled distributions. A given probablity for regional brain volume and a related distance from the mean is therefore composed of different distances and probabilities in the underlying (covariate of no interest) distributions. Here I wanted to decompose the regional brain volume by age (young and old) and gender (male and female). Each of these distributions is represented with its own graph.
 
 ![DVD](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/Data.gif)
 
@@ -1525,7 +1525,7 @@ class AccessSafe(Scene):
 
 ## Bragging
 
-In order to show how far I got with learning the ropes here a Lattice Boltzmann (2D9Q) animation with reflective and periodic boundary conditions (no-slip). The original implementation is from the Wikipedia page.
+In order to show how far I got with learning the ropes here a Lattice Boltzmann (2D9Q) animation with reflective and periodic boundary conditions (no-slip). The original python code is from the Wikipedia page and adapted here to 3b1b. The lattice on the left is using reflective, the lattice on the right periodic boundary conditions.
 
 ![Lattice Boltzman animation](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/LB.gif)
 
