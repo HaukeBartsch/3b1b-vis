@@ -19,3 +19,4 @@ manimgl -w start.py Data
 
 One of the first things I tried was a failure. I wanted to show how data is produced by a DVD writer. The writer is a box, the DVD are two circles, sounds very straight forward. Issue with z-stacking comes up when you take the 'DVD out of the drive'.
 
+![DVD](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/Anim.mp4)
