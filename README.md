@@ -29,7 +29,7 @@ The first things I tried did not work. I wanted to show how data is produced by 
 
 ![DVD](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/Anim.gif)
 
-When animated on its own instead of staying 'behind' the square the circles immediately jump in front of the square.
+When the DVD starts to come out of the drive instead of staying 'behind' the square the DVD immediately jump in front of the square.
 
 ```python
 class Anim(Scene):
