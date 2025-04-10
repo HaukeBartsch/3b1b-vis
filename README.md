@@ -1,4 +1,4 @@
-# Visualization programmed in python using 3b1b
+# Visualization in python using 3b1b
 
 I am collecting some of my attempts of using the python library and manimgl. Scripts are included and the order is basically historic. From the simplest steps drawing a square to a physics simulation.
 
