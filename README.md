@@ -474,7 +474,7 @@ Reading a comment to one of our papers I thought that it is not that easy to und
 Visualizing this concept of a brain state I used 1D Brownian motion. A single dot moves to the right along a time axis. To show how a temporal pattern can evolve I just build-up a histogram. There are some attractors buildin that create higher likelihoods for the 'brain state' to stay in specific regions.
 
 
-![DVD](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/TimeVarianceAuthority.gif)
+![Time Variance Authority](https://github.com/HaukeBartsch/3b1b-vis/blob/main/images/TimeVarianceAuthority.png)
 
 
 This part was instructive. Its not that difficult to animate something like this if you have a very clear picture in mind of what it should look like - that was the difficult bit.
