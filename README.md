@@ -179,7 +179,7 @@ class ProbOutlier(Scene):
 
 ```
 
-## Sum-of Gaussian distributions
+## Sum of Gaussian distributions
 
 Given a distribution of regional brain volumes for a cohort I wanted to display how that distribution can be composed out of individual shifted and scaled distributions. A given probablity for regional brain volume and a related distance from the mean is therefore composed of different distances and probabilities in the underlying (covariate of no interest) distributions. Here I wanted to decompose the regional brain volume by age (young and old) and gender (male and female). Each of these distributions is represented with its own graph.
 
@@ -464,4 +464,135 @@ class Data(Scene):
             run_time=1,
         )
         self.remove(gauss6_graph)
+```
+
+
+## Time Variance Authority
+
+Reading a comment to one of our papers I thought that it is not that easy to understand a concept like 'brain state'. The brain is driven by itself and to a smaller degree by external stimuli. If we focus on the internal communication of neurons with each other such interactions have a delay and can form very complex temporal pattern. Every brain piece might be meandering around drunkenly and every once in a while bump against other brain pieces (receive and send). If there are repeating pattern in that kind of network we could classify them as 'brain states'. For example some waves of activity may travel across the brain right when you fall asleep, or if you have a seizure. Other times there might be no waves but more or less synchrony between smaller regions. Maybe some neurons just form a bucket chain of activity that can be arbitrarily long. Interestingly all of these states could be reached without or with minimal  structural change. No region of the brain needs to 'turn off' for this to happen. 
+
+Visualizing this concept of a brain state I used 1D Brownian motion. A single dot moves to the right along a time axis. To show how a temporal pattern can evolve I just build-up a histogram. There are some attractors buildin that create higher likelihoods for the 'brain state' to stay in specific regions.
+
+
+![DVD](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/TimeVarianceAuthority.gif)
+
+
+This part was instructive. Its not that difficult to animate something like this if you have a very clear picture in mind of what it should look like - that was the difficult bit.
+
+```python
+class TimeVarianceAuthority(Scene):
+    # TODO: add cyclic boundary conditions, switch only one level up or down
+    #       This would produce errors at the border with the trails (up down up...)
+    coord = (0,0)
+    active_band = 0
+    band_bars = 17
+    bands = 3
+    turns = 50
+    band_bars_occupancies = np.zeros(bands * band_bars)
+    enable_bars = False
+    stop_point = False
+
+    def get_rectangle_corners(self, bottom_left, top_right):
+        return [
+            (top_right[0], top_right[1]),
+            (bottom_left[0], top_right[1]),
+            (bottom_left[0], bottom_left[1]),
+            (top_right[0], bottom_left[1]),
+        ]
+
+    def construct(self):
+        self.active_band = 1
+        self.coord = (0, self.active_band + 0.5) # y values for each x value, start in the middle of the active band
+        # probability to move up or down
+        probs = [0.05, 0.9, 0.05]
+        t_tracker = ValueTracker(0)
+        axes_start = Axes((0, 2500, 2500), (0,self.bands), height = FRAME_HEIGHT - 0, width = FRAME_WIDTH - 0.4)
+        #self.add(axes_start)
+
+        # drawing object is a line based on values in history
+        dot = Dot(axes_start.coords_to_point(self.coord[0], self.coord[1]), color=WHITE, radius=.02)
+        tracedPoint = TracingTail(dot.get_center, time_traced=2.5, stroke_width=(0,3), stroke_opacity=[0, 1])
+        bars = VGroup()
+        bar_height = self.bands/(len(self.band_bars_occupancies))
+        for i in range(len(self.band_bars_occupancies)):
+            polygon = Polygon(*[
+                axes_start.c2p(*i)
+                for i in self.get_rectangle_corners( 
+                    (0, i*bar_height ),
+                    (2500, (i+1)*bar_height - 0.01)
+                )
+            ], stroke_width=0.04)
+            polygon.stroke_width = 0.0
+            polygon.set_fill(RED_E, opacity=.5)
+            polygon.tmp = i
+
+            polygon.add_updater(
+                lambda x: x.set_opacity(1.7 * self.band_bars_occupancies[x.tmp] / (2*max(self.band_bars_occupancies)) if self.enable_bars and sum(self.band_bars_occupancies) > 0 else 0.0)
+            )
+            bars.add(polygon)
+
+        self.add(bars, dot, tracedPoint)
+
+        def move_coord(x, tracedPoint, probs):
+            if self.stop_point:
+                return self.coord
+            
+            if x % 2500 == 0:
+                # reset the traced line, by shifting to the left
+                tracedPoint.traced_points = [] # [(x[0]-2500, x[1], x[2]) for x in tracedPoint.traced_points]
+                self.active_band = np.random.choice([i for i in range(self.bands)])
+                #print("active band", self.active_band)
+            if x >= self.turns*2500:
+                return self.coord
+            # fiddle with the probabilities based on active_band
+            d = self.coord[1] - (self.active_band + 0.5)
+            if d > 0:
+                probs = [0.07, 0.9, 0.03]
+            else:
+                probs = [0.03, 0.9, 0.07]
+            self.coord = (x, self.coord[1] + np.random.choice([-5, 0, 5], p=probs)/100.0)
+            #self.coord = (x, 0.5)
+            # update the occupancy of each band_bar
+            if self.enable_bars:
+                y = math.floor(  max(0, min(1.0, (self.coord[1] / self.bands))) * (self.bands * self.band_bars) )
+                self.band_bars_occupancies[y] += 1
+            #print(self.coord, self.active_band, self.band_bars_occupancies)
+            return self.coord
+
+        dot.add_updater(
+            lambda x: x.become(
+                Dot(axes_start.coords_to_point(self.coord[0] % 2500, move_coord(t_tracker.get_value(), tracedPoint, probs)[1]), radius=.03, color=WHITE)
+            )
+        )
+        self.stop_point = False
+        t1 = Text(r"A brain state", font_size=24)
+        self.play(Write(t1))
+        self.wait()
+        t2 = Text(r"is not stationary", font_size=24)
+        self.play(FadeOut(t1))
+        self.play(FadeIn(t2))
+        self.wait()
+        self.play(FadeOut(t2))
+        # You can be awake, or sleeping.
+        # Or focused on work, or enjoying the sun.
+        # But what happens if you get stuck,
+        # too focused on negative thought, or too self-conscious?
+        #  
+
+
+        self.play(
+            t_tracker.animate.set_value(2*2500),
+            run_time=2*10,
+            rate_func=linear
+        )
+        self.stop_point = True
+        self.wait()
+        self.enable_bars = True
+        self.stop_point = False
+        self.play(
+            t_tracker.animate.set_value(self.turns*2500),
+            run_time=self.turns*10,
+            rate_func=linear
+        )
+        self.wait()
 ```
