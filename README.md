@@ -610,7 +610,7 @@ class TimeVarianceAuthority(Scene):
 
 ## Bootstrapping A.I. learning
 
-This animation was basically a demonstration that its better to work with small pieces instead of one long animation.
+The take-away from this animation was that it is better to work with smaller pieces instead of trying to do everything in one long script.
 
 Given a region of interest (mask) for an image we can compute many values. Whereas the pixel values in the image do not have a meaning assigned to them the values we compute do. For example a 'size of the tumor' - value. So how to we get an A.I. to create those masks for us?
 
