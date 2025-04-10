@@ -1124,3 +1124,145 @@ class Anim02(Scene):
         self.play(FadeOut(t2), FadeOut(t3), FadeIn(copy_of_g2))
         self.wait()
 ```
+
+## The role of FIONA
+
+The FIONA box performs the above transformation from clinical data into research data. All data is structured nicely inside the research PACS (picture archive and communication system).
+
+![data transformation with FIONA](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/Anim03.gif)
+
+Same tricks as in the above section. No surprises here.
+
+```python
+class Anim03(Scene):
+    def construct(self):
+        rect_c = RoundedRectangle(corner_radius=0.5, height=3.0, width=3.0, fill_color=BLUE, fill_opacity=1)
+        rect_c.z_index = 1
+        self.play(Write(rect_c))
+        self.wait()
+        self.play(rect_c.animate.shift(4.5 * LEFT))
+
+        clinic = Text("clinic")
+        clinic.z_index = 1
+        clinic.move_to(rect_c, TOP).shift(2.0 * UP)
+        self.play(FadeIn(clinic))
+
+        # where we want to go
+        pacs = Text("research PACS")
+        pacs.z_index = 1
+        pacs.move_to(rect_c, TOP).shift(2.0 * UP + 9.5 * RIGHT)
+        self.play(FadeIn(pacs))
+
+
+        square = Rectangle(fill_color=GREY, height=5.0, width=4.5)
+        #square.shift(1 * RIGHT)
+        square.z_index = 0
+        fiona = Text("FIONA")
+        fiona.align_to(square, TOP).shift(0.2 * DOWN + 1 * LEFT)
+        g = VGroup(square, fiona)
+        self.play(Write(g))
+
+        p = Text("Project")
+        n = Text("Namej")
+        n[4].set_opacity(0)
+        e = Text("Eventj")
+        e[5].set_opacity(0)
+        g1 = VGroup(p, n, e)
+        g1.arrange(DOWN, buff=0.1, center=False, aligned_edge=LEFT)
+        g1.shift(1.2 * LEFT + 1.0 * UP)
+        
+        pb = Rectangle(height=0.46, width=2, fill_color=GREY,color=WHITE)
+        nb = Rectangle(height=0.46, width=2, fill_color=GREY,color=WHITE)
+        eb = Rectangle(height=0.46, width=2, fill_color=GREY,color=WHITE)
+        g2 = VGroup(pb, nb, eb)
+        g2.arrange(DOWN, buff=0.1, center=False, aligned_edge=LEFT)
+        g2.move_to(g1.get_right(),LEFT).shift(0.3 * RIGHT)
+        self.play(Write(g1), Write(g2))
+
+        # move the data to fiona, change color, send to research PACS
+        rect_r = rect_c.copy()
+        rect_r.shift(4.5 * RIGHT + 1.5 * DOWN)
+        rect_r.scale(0.5)
+        self.play(Transform(rect_c, rect_r))
+
+        self.wait()
+        self.play(rect_r.animate.set_color(GREEN), run_time=0.1)
+
+        # send to PACS now
+        rect_p = rect_r.copy()
+        rect_p.shift(4* RIGHT + 3.5 * UP)
+        rect_p.scale(0.5)
+        self.play(Transform(rect_r, rect_p))
+        self.play(FadeOut(rect_c))
+        self.wait()
+
+        # do it again, but faster
+        rect_c = RoundedRectangle(corner_radius=0.5, height=3.0, width=3.0, fill_color=BLUE, fill_opacity=1)
+        rect_c.z_index = 1
+        rect_c.shift(4 * LEFT)
+        self.play(FadeIn(rect_c))
+
+        rect_r = rect_c.copy()
+        rect_r.shift(4 * RIGHT + 1.5 * DOWN)
+        rect_r.scale(0.5)
+        self.play(Transform(rect_c, rect_r))
+
+        self.wait()
+        self.play(rect_r.animate.set_color(GREEN), run_time=0.1)
+
+        # send to PACS now
+        rect_p = rect_r.copy()
+        rect_p.shift(5.0 * RIGHT + 3.5 * UP)
+        rect_p.scale(0.5)
+        self.play(Transform(rect_r, rect_p))
+        self.play(FadeOut(rect_c))
+        #self.wait()
+
+        # just show what happens over time by adding more fields
+        # do it again, but faster
+        rect_c = RoundedRectangle(corner_radius=0.5, height=3.0, width=3.0, fill_color=BLUE, fill_opacity=1)
+        rect_c.z_index = 1
+        rect_c.shift(4 * LEFT)
+        self.play(FadeIn(rect_c))
+
+        rect_r = rect_c.copy()
+        rect_r.shift(4 * RIGHT + 1.5 * DOWN)
+        rect_r.scale(0.5)
+        self.play(Transform(rect_c, rect_r))
+
+        self.wait()
+        self.play(rect_r.animate.set_color(GREEN), run_time=0.1)
+
+        # send to PACS now
+        rect_p = rect_r.copy()
+        rect_p.shift(6.0 * RIGHT + 3.5 * UP)
+        rect_p.scale(0.5)
+        self.play(Transform(rect_r, rect_p))
+        self.play(FadeOut(rect_c))
+        self.wait()
+
+        # show that the individual projects appear together in research PACS
+        squareP1 = Rectangle(fill_color=GREY, height=1.5, width=3.0)
+        squareP1.shift(5*RIGHT + 2.0 * UP)
+        #square.shift(1 * RIGHT)
+        squareP1.z_index = 0
+        #pacs = Text("research PACS")
+        #pacs.z_index = 1
+        #pacs.move_to(squareP1, TOP).shift(0.8 * UP)
+        #g = VGroup(squareP1, pacs)
+        self.play(Write(squareP1))
+
+        # lets make the green squares disappear?        
+
+        squareP2 = Rectangle(fill_color=GREY, height=1.5, width=3.0)
+        squareP2.shift(5*RIGHT + 0 * UP)
+        #square.shift(1 * RIGHT)
+        squareP2.z_index = 0
+
+        squareP3 = Rectangle(fill_color=GREY, height=1.5, width=3.0)
+        squareP3.shift(5*RIGHT - 2 * UP)
+        #square.shift(1 * RIGHT)
+        squareP3.z_index = 0
+        self.play(Write(squareP2), Write(squareP3))
+```
+
