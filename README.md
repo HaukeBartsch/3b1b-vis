@@ -1523,13 +1523,13 @@ class AccessSafe(Scene):
         self.play(FadeOut(box3),FadeOut(arrow_3),FadeOut(rdp_text3))
 ```
 
-## Bragging
+## Physics simulation
 
 In order to show how far I got with learning the ropes here a Lattice Boltzmann (2D9Q) animation with reflective and periodic boundary conditions (no-slip). The original python code is from the Wikipedia page and adapted here to 3b1b. The lattice on the left is using reflective, the lattice on the right periodic boundary conditions.
 
 ![Lattice Boltzman animation](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/LB.gif)
 
-Each of the two fields has a resolution of 50 by 50. The _LB class performs the computation and vis the drawing at each timestep. The two lattices are displayed using a grid of circles. Outside an annulus ring the opacity of the circles is set to very low.
+Each of the two fields has a resolution of 50 by 50. The _LB class performs the computation and vis() the drawing at each timestep. The two lattices are displayed using a grid of circles. Outside an annulus ring the opacity of the circles is set to very low. This was the first time I tried to use colormaps - in this case just a transition map between two colors.
 
 ```python
 from manimlib import *
