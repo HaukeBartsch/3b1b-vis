@@ -2,7 +2,7 @@
 
 I am collecting some of my attempts of using the python library and manimgl (not the community edition!).
 
-All scripts where created on a mac book pro using a conda environment.
+All scripts where created on a mac book pro using a conda environment (ManimGL v1.7.2).
 
 ```bash
 conda activate 3b1b
@@ -478,6 +478,8 @@ Visualizing this concept of a brain state I used 1D Brownian motion. A single do
 
 
 This part was instructive. Its not that difficult to animate something like this if you have a very clear picture in mind of what it should look like. The mp4 movie is just too big as a gif to be played back here. Instead [download and play](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/TimeVarianceAuthority.mp4) the mp4 directly.
+
+Something strange happened when I moved from one laptop to the next with this animation. I had to specify the FRAME_HEIGHT to make it work. Maybe because of a change in the version of manimgl? The aspect ratio was wrong otherwise and the image appeared to be cut off left and right.
 
 ```python
 class TimeVarianceAuthority(Scene):
