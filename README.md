@@ -53,9 +53,9 @@ class Anim(Scene):
 
 This seems to be related z_index to be restricted to a positive integer? Changing the z-value you can also see that the camera is a 3D perspective camera. Objects change in apparent size of they have higher z-values.
 
-## Outliers in a probability function
+## Outliers relative to a probability function
 
-In the second attempt of using the python library 3b1b I tried to visualize an outlier in a distribution in order to show how likely it would be to get such a value. Sounds more complex? Yes, it was.
+In the second attempt of using the python library I tried to visualize an outlier (low probability value) in a distribution. In order to show how the integral to the here left-hand side relates to the likelihood of getting such a value. Sounds more complex? Yes, it was.
 
 ![DVD](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/ProbOutlier.gif)
 
@@ -181,11 +181,11 @@ class ProbOutlier(Scene):
 
 ## Sum-of Gaussian distributions
 
-Given a distribution of regional brain volumes for a cohort I wanted to display how that distribution can composed out of individual shifted and scaled distributions. A given probablity for regional brain volume and a related distance from the mean is therefore composed of different distances and probabilities in the underlying covariate distributions. Here I wanted to decompose the regional brain volume by age (young and old) and gender (male and female).
+Given a distribution of regional brain volumes for a cohort I wanted to display how that distribution can be composed out of individual shifted and scaled distributions. A given probablity for regional brain volume and a related distance from the mean is therefore composed of different distances and probabilities in the underlying (covariate of no interest) distributions. Here I wanted to decompose the regional brain volume by age (young and old) and gender (male and female). Each of these distributions is represented with its own graph.
 
 ![DVD](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/Data.gif)
 
-This actually worked out ok. I was quite happy with this.
+This actually worked out ok. I was quite happy with this and I discovered the magical function LaggedStart.
 
 ```python
 class Data(Scene):
