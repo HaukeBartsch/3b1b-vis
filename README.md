@@ -892,3 +892,235 @@ class Anim01(Scene):
         self.wait(2)
 
 ```
+
+## DICOM image meta information
+
+I wanted to show that medical images contain metadata inside and how we can transform them into research data by adding three pieces of information, the project name, the pseudonymized participant ID and the visit / event.
+
+![Clinical to research data transformation](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/Anim02.gif)
+
+Very straight forward. The tricky bit was to keep the alignment of the individual text elements. I had to add characters that fill the full font-height and make them invisible to make it work.
+
+```python
+class Anim02(Scene):
+    def construct(self):
+        rect_c = RoundedRectangle(corner_radius=0.5, height=4.0, width=4.0, fill_color=BLUE, fill_opacity=1)
+        rect_c.z_index = 2
+        self.play(Write(rect_c))
+        t_image = Text("image")
+        t_image.next_to(rect_c, UP)
+        self.play(Write(t_image))
+        self.wait()
+        self.play(rect_c.animate.shift(3 * LEFT), t_image.animate.shift(3 * LEFT))
+
+        # mention image + WHO WHERE WHAT HOW
+        t_meta = Text("what + who + when + how + where")
+        t_meta.next_to(rect_c, UP).shift(6*RIGHT)
+        self.play(Write(t_meta))
+        self.wait()
+
+        t = Text("Modality: MR")
+        t2 = Text("Patient name: Hauke Bartschj")
+        t2[24].set_opacity(0)
+        t3 = Text("Date of birth: 1970-01-01j")
+        t3[22].set_opacity(0)
+        t4 = Text("Study date: 2021-01-01")
+        t5 = Text("Study description: chest abdomen")
+        t6 = Text("Protocol name: T2W_TSE SENSE")
+
+        # Add info about imaging physics, protocol, space and time (WHERE WHAT AND HOW)
+        # 100 times more meta-data info than images in a DICOM file
+
+        g = VGroup(t, t2, t3, t4, t5, t6)
+        g.z_index = 3
+        g.arrange(DOWN, buff=0.1, center=False, aligned_edge=LEFT)
+        g.next_to(rect_c, RIGHT)
+        self.play(Write(g),FadeOut(t_image), FadeOut(t_meta))
+        self.wait()
+
+        # show ok data, show sensitive data
+        self.play(t.animate.set_color(GREEN),
+                  t5.animate.set_color(GREEN),
+                  t6.animate.set_color(GREEN))
+        self.wait()
+        self.play(t2.animate.set_color(RED),
+                  t3.animate.set_color(RED))
+        #self.wait()
+        #self.play(t4.animate.set_color(YELLOW))
+        self.wait(2)
+
+        self.play(
+            t.animate.set_color(WHITE),
+            t2.animate.set_color(WHITE),
+            t3.animate.set_color(WHITE),
+            t4.animate.set_color(WHITE),
+            t5.animate.set_color(WHITE),
+            t6.animate.set_color(WHITE)
+        )
+
+        # show that they are part of the image (meta-data)
+        g.scale(0.5)
+        g2 = g.copy()
+        [x.set_color(BLACK) for x in g2]
+        g2.move_to(rect_c.get_center())
+        self.play(Transform(g, g2))
+        self.wait(2)
+
+        copy_of_g2 = g2.copy()
+        #copy_of_g2.set_color(GREY_B)
+
+        c_txt = Text("Clinic")
+        c_txt.next_to(rect_c, DOWN) 
+        self.play(Write(c_txt))
+
+        self.wait()
+
+        #
+        # Show what we can do with an image + meta data
+        # (send around)
+        ar = Arrow(start=LEFT, end=RIGHT)
+        ar.next_to(rect_c, RIGHT)
+        ar_txt = Text("send")
+        ar_txt.next_to(ar, UP)
+        self.play(GrowArrow(ar), Write(ar_txt))
+
+        destination1 = Text("Stavanger",font_size=65)
+        destination1.next_to(ar, RIGHT)
+        destination2 = Text("Førde",font_size=65)
+        destination2.next_to(ar, RIGHT)
+        destination3 = Text("Fonna",font_size=65)
+        destination3.next_to(ar, RIGHT)
+        destination4 = Text("Haugesund",font_size=65)
+        destination4.next_to(ar, RIGHT)
+        destination5 = Text("Ålesund",font_size=65)
+        destination5.next_to(ar, RIGHT)
+        self.wait()
+        destination6 = Text("Australia",font_size=65)
+        destination6.next_to(ar, RIGHT)
+        self.play(Write(destination1))
+        self.play(Transform(destination1, destination2))
+        self.play(Transform(destination1, destination3))
+        self.play(Transform(destination1, destination4))
+        self.play(Transform(destination1, destination5))
+        self.play(Transform(destination1, destination6))
+
+        self.wait(2)
+        self.play(FadeOut(ar), FadeOut(ar_txt), FadeOut(destination1))
+
+
+
+        rect_r = RoundedRectangle(corner_radius=0.5, height=4.0, width=4.0, fill_color=GREEN, fill_opacity=1)
+        rect_r.shift(3 * LEFT)
+        rect_r.z_index = 0
+
+        r_txt = Text("Research")
+        r_txt.next_to(rect_r, DOWN).shift(6 * RIGHT)
+        #self.play(Write(c_txt))
+        self.play(FadeIn(r_txt))
+
+        qm = Text("?", font_size=44)
+        qm.move_to(rect_r.get_center())
+        qm.z_index = 1
+        self.play(Write(qm))
+
+        # fix to get research ready data
+        self.play(rect_r.animate.shift(6*RIGHT),
+                  qm.animate.shift(6*RIGHT))
+        self.wait()
+        self.play(FadeOut(qm))
+
+        # now move over the research identity
+        t_project = Text("Project: GEMRIC", font_size=24)
+        t_event = Text("Event: week 052j", font_size=24)
+        t_event[13].set_opacity(0)
+        t_subject = Text("Participant: GEMRIC_01_001", font_size=24)
+        r_ident = VGroup(t_project, t_event, t_subject)
+        r_ident.arrange(DOWN, buff=0.1, center=False, aligned_edge=LEFT)
+        r_ident.next_to(rect_r, UP)
+        self.play(Write(r_ident))
+
+        self.wait()
+
+        # animate the different texts for event and participant
+        t_event2 = Text("Event: baselinej", font_size=24).move_to(t_event, LEFT)
+        t_event2[14].set_opacity(0)
+        t_event3 = Text("Event: day 1j", font_size=24).move_to(t_event, LEFT)
+        t_event3[10].set_opacity(0)
+        t_event4 = Text("Event: week 1j", font_size=24).move_to(t_event, LEFT)
+        t_event4[11].set_opacity(0)
+        t_event5 = Text("Event: week 26j", font_size=24).move_to(t_event, LEFT)
+        t_event5[12].set_opacity(0)
+        self.play(
+            FadeOut(t_event), 
+            FadeIn(t_event2)
+        )
+        self.play(            
+            FadeOut(t_event2),
+            FadeIn(t_event3)
+        )
+        self.play(            
+            FadeOut(t_event3), 
+            FadeIn(t_event4),
+        )
+        self.play(            
+            FadeOut(t_event4), 
+            FadeIn(t_event5),
+        )
+        self.wait()
+
+        t_part2 = Text("Participant: GEMRIC_01_001", font_size=24).move_to(t_subject, LEFT)
+        t_part3 = Text("Participant: GEMRIC_01_002", font_size=24).move_to(t_subject, LEFT)
+        t_part4 = Text("Participant: GEMRIC_02_001", font_size=24).move_to(t_subject, LEFT)
+        t_part5 = Text("Participant: GEMRIC_01_999", font_size=24).move_to(t_subject, LEFT)
+        self.play(
+            FadeOut(t_subject), 
+            FadeIn(t_part2)
+        )
+        self.play(            
+            FadeOut(t_part2),
+            FadeIn(t_part3)
+        )
+        self.play(            
+            FadeOut(t_part3), 
+            FadeIn(t_part4),
+        )
+        self.play(            
+            FadeOut(t_part4), 
+            FadeIn(t_part5),
+        )
+        self.wait()
+        # now create the resulting info text for research purposes
+
+        t_r = Text("Modality: MR")
+        t2_r = Text("Patient name: GEMRIC_01_999j")
+        t2_r[25].set_opacity(0)
+        t3_r = Text("Date of birth:j")
+        t3_r[12].set_opacity(0)
+        t4_r = Text("Study date: 2021-02-15 (+X days)")
+        t5_r = Text("Study description: Check for brain")
+        t6_r = Text("Event: week 26j")
+        t6_r[12].set_opacity(0)
+        t7_r = Text("Project: GEMRIC")
+        t8_r = Text("Protocol name: T2W_TSE SENSE")
+        g2_r = VGroup(t_r, t2_r, t3_r, t4_r, t5_r, t6_r, t7_r, t8_r)
+        g2_r.arrange(DOWN, buff=0.1, center=False, aligned_edge=LEFT)
+        g2_r.move_to(rect_r.get_center())
+        g2_r.scale(0.5)
+        #self.play(Write(g2_r))
+        self.play(Transform(t, t_r))
+        self.play(Transform(t_part5, t2_r))
+        #self.play(FadeOut(t2))
+        #self.play(FadeOut(t3), FadeIn(t3_r))
+        self.play(FadeIn(t3_r))
+        self.play(Transform(t4, t4_r))
+        self.play(Transform(t5, t5_r))
+        self.play(Transform(t_event5, t6_r))
+        #self.play(Transform(t_part5, t5_r))
+        self.play(Transform(t_project, t7_r))
+        self.play(Transform(t6, t8_r))
+        # now hide the outside values
+        #self.play(FadeOut(t_part5))
+        #self.play(FadeOut(t_event5))
+        self.play(FadeOut(t2), FadeOut(t3), FadeIn(copy_of_g2))
+        self.wait()
+```
