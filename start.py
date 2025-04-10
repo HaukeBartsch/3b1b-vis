@@ -138,7 +138,7 @@ class ProbOutlier(Scene):
 
         self.wait()
         self.play(x_of_dot.animate.set_value(5), run_time=3)
-        self.wait()
+        self.wait(4)
 
 
 class Data(Scene):
@@ -417,6 +417,7 @@ class Data(Scene):
             run_time=1,
         )
         self.remove(gauss6_graph)
+        self.wait(4)
 
 
 class TimeVarianceAuthority(Scene):

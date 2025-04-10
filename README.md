@@ -471,13 +471,13 @@ class Data(Scene):
 
 Reading a comment to one of our papers I thought that it is not that easy to understand a concept like 'brain state'. The brain is driven by itself and to a smaller degree by external stimuli. If we focus on the internal communication of neurons with each other such interactions have a delay and can form very complex temporal pattern. Every brain piece might be meandering around drunkenly and every once in a while bump against other brain pieces (receive and send). If there are repeating pattern in that kind of network we could classify them as 'brain states'. For example some waves of activity may travel across the brain right when you fall asleep, or if you have a seizure. Other times there might be no waves but more or less synchrony between smaller regions. Maybe some neurons just form a bucket chain of activity that can be arbitrarily long. Interestingly all of these states could be reached without or with minimal  structural change. No region of the brain needs to 'turn off' for this to happen. 
 
-Visualizing this concept of a brain state I used 1D Brownian motion. A single dot moves to the right along a time axis. To show how a temporal pattern can evolve I just build-up a histogram. There are some attractors buildin that create higher likelihoods for the 'brain state' to stay in specific regions.
+Visualizing this concept of a brain state I used 1D Brownian motion. A single dot moves to the right along a time axis. To show how a temporal pattern can evolve I just build-up a histogram. There are some attractors buildin that create higher likelihoods for the 'brain state' to stay in specific regions. Here there are three regions this brain likes to be in, while still happily traversing the whole space of possible states.
 
 
 ![Time Variance Authority](https://github.com/HaukeBartsch/3b1b-vis/blob/main/images/TimeVarianceAuthority.png)
 
 
-This part was instructive. Its not that difficult to animate something like this if you have a very clear picture in mind of what it should look like - that was the difficult bit.
+This part was instructive. Its not that difficult to animate something like this if you have a very clear picture in mind of what it should look like. The mp4 movie is just too big as a gif to be played back here. Instead [download and play](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/TimeVarianceAuthority.mp4) the mp4 directly.
 
 ```python
 class TimeVarianceAuthority(Scene):
