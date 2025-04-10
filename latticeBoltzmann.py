@@ -135,7 +135,7 @@ class _LB():
 
 class LB(Scene):
 
-    res=300
+    res=40
 
     def construct(self):
         # periodic or bounce-back
@@ -150,18 +150,18 @@ class LB(Scene):
         lb2.DensityField[self.res - round(self.res/3.0)][round(self.res/2.0)] = 2.5
 
         self.wait(1)
-        for i in range(512):
+        for i in range(128):
             lb1.step()
             lb2.step()
             grid1 = self.vis(grid1, lb1.a, lb1.velocityField)
             grid2 = self.vis(grid2, lb2.a, lb2.velocityField)
-            if i > 20:
+            if i > 10:
                 # unset the density value
                 lb1.DensityField[5][25] = 1
                 lb2.DensityField[5][25] = 1
                 self.wait(0.1)
             else:
-                self.wait(1)
+                self.wait(0.3)
 
 
     def vis(self, grid, a, velocityField):
