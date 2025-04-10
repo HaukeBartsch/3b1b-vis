@@ -1,8 +1,8 @@
 # Visualization programmed in python using 3b1b
 
-I am collecting some of my attempts of using the python library and manimgl (not the community edition!).
+I am collecting some of my attempts of using the python library and manimgl.
 
-All scripts where created on a mac book pro using a conda environment (ManimGL v1.7.2).
+All scripts where created on a mac-book pro using a conda environment (ManimGL v1.7.2).
 
 ```bash
 conda activate 3b1b
@@ -15,6 +15,8 @@ All movies where generated with first writing them to disk as mp4 and using Imag
 manimgl -w start.py Data
 convert videos/Data.mpg videos/Data.gif
 ```
+
+Some gif files where too big so I ommitted them. Watch the corresponding mp4's in the videos folder.
 
 ## Z-stacking
 
