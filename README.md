@@ -1,6 +1,6 @@
 # Visualization in python using 3b1b
 
-I am collecting some of my attempts of using the python library and manimgl. Scripts are included and the order is basically historic. From the simplest steps drawing a square to a physics simulation.
+I am collecting every attempt of mine using the python library manimlib and manimgl. Scripts are included and the order is basically from the first attempt to most recent.
 
 ![From a square to this](https://github.com/HaukeBartsch/3b1b-vis/blob/main/images/LB.png)
 
@@ -32,6 +32,8 @@ The first things I tried did not work. I wanted to show how data is produced by 
 When the DVD starts to come out of the drive instead of staying 'behind' the square the DVD immediately jump in front of the square.
 
 ```python
+from manimlib import *
+
 class Anim(Scene):
     def construct(self):
         square = Square()
