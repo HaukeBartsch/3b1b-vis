@@ -1738,11 +1738,11 @@ class LB(Scene):
 
 ## Orientation selective maps
 
-One of the old time favourite models for orientation selective maps of primary visual cortex. Here two white noise fields are independently smoothed and define a flat map of orientation selectivity. Preference for orientation is displayed as color using a circular colormap (hsv). You can see pin-wheels, locations where there are neurons responding to all orientations, like orientation hypercolumns. Such looks as pretty as the maps that code for orientation selectivity in the human visual cortex V1. 
+One of my old time favourite models for orientation selective maps of primary visual cortex. Here two white noise fields are independently smoothed and define a flat map of orientation selectivity. Preference for an orientation is displayed as color using a circular colormap (hsv). As a main feature you see pin-wheels, locations where neurons responding to all orientations, just like the model of an orientation hypercolumns. These look just as pretty as the maps of measured orientation selectivity in the human (or cat) primary visual cortex (V1). 
 
-![white noise model for orientation selective cells](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/cat.gif)
+![white noise model for orientation selective cells](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/Cat.gif)
 
-Unrealistically as smoothing continues the pin-wheels travel around the map, they merge and based on the level of smoothness the map becomes less interesting. 
+Unrealistically as smoothing continues the pin-wheels travel around the map, they even merge. Based on the level of smoothness the map becomes less interesting. 
 
 ```python
 from manimlib import *
