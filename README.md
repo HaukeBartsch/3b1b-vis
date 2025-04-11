@@ -1531,7 +1531,7 @@ In order to show how far I got with learning the ropes here a Lattice Boltzmann 
 
 ![Lattice Boltzman animation](https://github.com/HaukeBartsch/3b1b-vis/blob/main/videos/LB.gif)
 
-Each of the two fields has a resolution of 50 by 50. The _LB class performs the computation and vis() the drawing at each timestep. The two lattices are displayed using a grid of circles. Outside an annulus ring the opacity of the circles is set to very low. This was the first time I tried to use colormaps - in this case just a transition map between two colors.
+Each of the two fields has a resolution of 50 by 50. The _LB class performs the computation and vis() the drawing at each timestep. The two lattices are displayed using a grid of circles. Outside a circle the opacity of each element is set to very low. This was the first time I tried to use colormaps - in this case just a transition map between two colors.
 
 ```python
 from manimlib import *
