@@ -11,7 +11,7 @@ class GEMRIC_new_site(Scene):
         t = VGroup(
             Text(r"Site PI", font_size=32),
             Text(r"registers", font_size=32),
-            Text(r"new site", font_size=32)
+            Text(r"a new site", font_size=32)
         ).arrange(DOWN, aligned_edge=LEFT)
         #t.move_to(square.get_center())
         pi = VGroup(t)
@@ -136,11 +136,11 @@ class GEMRIC_new_site(Scene):
         arrow8.move_to(DOWN * 3 + LEFT * 6)
         self.play(Write(arrow8))
 
-        s = Rectangle(width=3, height=1)
+        s = Rectangle(width=5, height=1.5)
         s.set_fill(GREEN, 1)
         t9 = VGroup(
-            Text(r"Verified member with", font_size=26),
-            Text(r"access to all data", font_size=26)
+            Text(r"Verified member with access to all data.", font_size=26),
+            Text(r"Data can be part of new release.", font_size=26)
         ).arrange(DOWN, aligned_edge=LEFT)
         t9.move_to(s.get_center())
         g6 = VGroup(s, t9).next_to(arrow8, RIGHT)
